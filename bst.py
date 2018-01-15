@@ -98,8 +98,38 @@ class BST:
                     print(curr.value)
                     curr = curr.right
 
+    def iterativePostOrder(self):
+        if self.root is None:
+            return None
+        nodeStack = []
+        temp = self.root
+        while True:
+            while temp is not None:
+                if temp.right:
+                    nodeStack.append(temp.right)
+                nodeStack.append(temp)
+                temp = temp.left
 
+            temp = nodeStack.pop()
 
+            if temp.right is not None and temp.right is self.getTop(nodeStack):
+                node = nodeStack.pop()
+                nodeStack.append(temp)
+                temp = node
+            else:
+                print(temp.value)
+                temp = None
+
+            if(len(nodeStack) ==0 ):
+                break
+        return self.root
+
+    def getTop(self, nodeStack):
+        if len(nodeStack) == 0:
+            return None
+        node = nodeStack.pop()
+        nodeStack.append(node)
+        return node
 
 bst = BST()
 n = int(input())
@@ -119,3 +149,6 @@ bst.iterativePreOrder()
 
 print("inorder iterative")
 bst.iterativeInOrder()
+
+print("iterative postOrder")
+bst.iterativePostOrder()
